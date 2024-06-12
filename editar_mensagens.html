@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Mensagem</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <header id="headerjulio">
+        <a href="index.html"><img class="logo" src="logo.png" alt="Logo wise wallet"></a>
+        <nav class="teste">
+            <ul class="cabecalho">
+                  
+                <li class="menu"><a class="menu" href="config.html"><i class="ph ph-user-circle-gear"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Editar Mensagem</h1>
+        <form id="editForm">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required><br><br>
+            
+            <label for="mensagem">Mensagem:</label>
+            <textarea id="mensagem" name="mensagem" required></textarea><br><br>
+            
+            <label for="data">Data:</label>
+            <input type="text" id="data" name="data" readonly><br><br>
+            
+            <button type="button" id="submitButton">Salvar</button>
+        </form>
+    </main>
+    <script>
+        // Função para carregar e exibir os dados da mensagem
+        async function loadMessage() {
+            try {
+                // Obter o ID da mensagem da URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const messageId = urlParams.get('id');
+                
+                // Buscar os dados da mensagem do servidor
+                const response = await fetch(`http://localhost:3000/mensagens/${messageId}`);
+                const messageData = await response.json();
+
+                // Preencher o formulário com os dados da mensagem
+                document.getElementById('nome').value = messageData.nome;
+                document.getElementById('mensagem').value = messageData.mensagem;
+                document.getElementById('data').value = messageData.data; // Preencher a data
+            } catch (error) {
+                console.error('Erro ao carregar mensagem:', error.message);
+            }
+        }
+
+        // Função para enviar a mensagem editada para o servidor
+        async function saveEditedMessage() {
+            try {
+                // Obter o ID da mensagem da URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const messageId = urlParams.get('id');
+                
+                // Obter os novos valores do formulário
+                const newName = document.getElementById('nome').value;
+                const newMessage = document.getElementById('mensagem').value;
+                const newDate = new Date().toISOString().split('T')[0]; // Obter a nova data
+
+                // Verificar se a mensagem foi editada
+                if (newMessage.trim() === '') {
+                    throw new Error('Nenhuma mensagem fornecida.');
+                }
+
+                // Enviar os dados atualizados para o servidor
+                const response = await fetch(`http://localhost:3000/mensagens/${messageId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nome: newName,
+                        mensagem: newMessage,
+                        data: newDate // Enviar a nova data
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro ao editar mensagem');
+                }
+
+                // Mensagem editada com sucesso
+                alert(`Mensagem com ID ${messageId} editada com sucesso!`);
+
+                // Recarregar as mensagens
+                loadMessages();
+            } catch (error) {
+                console.error('Erro ao editar mensagem:', error.message);
+            }
+        }
+
+        // Carregar os dados da mensagem quando a página for carregada
+        window.onload = loadMessage;
+
+        // Adicionar evento de clique ao botão "Enviar"
+        document.getElementById('submitButton').addEventListener('click', function() {
+            saveEditedMessage(); // Chama a função para enviar a mensagem editada
+        });
+
+        // Função para carregar as mensagens após edição
+        async function loadMessages() {
+            try {
+                const response = await fetch('http://localhost:3000/mensagens');
+                const messages = await response.json();
+                const messagesDiv = document.getElementById('mensagens');
+                messagesDiv.innerHTML = '';
+
+                messages.forEach(message => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.innerHTML = `
+                        <p><strong>Nome:</strong> ${message.nome}</p>
+                        <p><strong>Mensagem:</strong> <span id="mensagem-${message.id}" contenteditable="true">${message.mensagem}</span></p>
+                        <p><strong>Data:</strong> ${message.data}</p>
+                        <button onclick="editMessage(${message.id})">Editar</button>
+                        <button onclick="deleteMessage(${message.id})">Excluir</button>
+                    `;
+                    messagesDiv.appendChild(messageDiv);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar mensagens:', error.message);
+            }
+        }
+    </script>
+</body>
+</html>
