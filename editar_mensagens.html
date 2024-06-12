@@ -32,44 +32,43 @@
         </form>
     </main>
     <script>
-        // Função para carregar e exibir os dados da mensagem
+       
         async function loadMessage() {
             try {
-                // Obter o ID da mensagem da URL
+                
                 const urlParams = new URLSearchParams(window.location.search);
                 const messageId = urlParams.get('id');
                 
-                // Buscar os dados da mensagem do servidor
+                
                 const response = await fetch(`http://localhost:3000/mensagens/${messageId}`);
                 const messageData = await response.json();
 
-                // Preencher o formulário com os dados da mensagem
+            
                 document.getElementById('nome').value = messageData.nome;
                 document.getElementById('mensagem').value = messageData.mensagem;
-                document.getElementById('data').value = messageData.data; // Preencher a data
+                document.getElementById('data').value = messageData.data; 
             } catch (error) {
                 console.error('Erro ao carregar mensagem:', error.message);
             }
         }
 
-        // Função para enviar a mensagem editada para o servidor
+      
         async function saveEditedMessage() {
             try {
-                // Obter o ID da mensagem da URL
+               
                 const urlParams = new URLSearchParams(window.location.search);
                 const messageId = urlParams.get('id');
                 
-                // Obter os novos valores do formulário
+               
                 const newName = document.getElementById('nome').value;
                 const newMessage = document.getElementById('mensagem').value;
-                const newDate = new Date().toISOString().split('T')[0]; // Obter a nova data
+                const newDate = new Date().toISOString().split('T')[0]; 
 
-                // Verificar se a mensagem foi editada
                 if (newMessage.trim() === '') {
                     throw new Error('Nenhuma mensagem fornecida.');
                 }
 
-                // Enviar os dados atualizados para o servidor
+            
                 const response = await fetch(`http://localhost:3000/mensagens/${messageId}`, {
                     method: 'PUT',
                     headers: {
@@ -78,7 +77,7 @@
                     body: JSON.stringify({
                         nome: newName,
                         mensagem: newMessage,
-                        data: newDate // Enviar a nova data
+                        data: newDate 
                     })
                 });
 
@@ -86,25 +85,25 @@
                     throw new Error('Erro ao editar mensagem');
                 }
 
-                // Mensagem editada com sucesso
+             
                 alert(`Mensagem com ID ${messageId} editada com sucesso!`);
 
-                // Recarregar as mensagens
+                
                 loadMessages();
             } catch (error) {
                 console.error('Erro ao editar mensagem:', error.message);
             }
         }
 
-        // Carregar os dados da mensagem quando a página for carregada
+    
         window.onload = loadMessage;
 
-        // Adicionar evento de clique ao botão "Enviar"
+      
         document.getElementById('submitButton').addEventListener('click', function() {
-            saveEditedMessage(); // Chama a função para enviar a mensagem editada
+            saveEditedMessage(); 
         });
 
-        // Função para carregar as mensagens após edição
+     
         async function loadMessages() {
             try {
                 const response = await fetch('http://localhost:3000/mensagens');

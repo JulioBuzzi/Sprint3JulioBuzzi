@@ -1,9 +1,8 @@
-*{
-    margin:0;
-    padding:0;
-    border:0;
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
 }
-
 
 header {
     background-color: green;
@@ -11,12 +10,12 @@ header {
     z-index: 1000;
     top: 0;
     left: 0;
-    height: 20vh; /* Ocupa 20% da altura da tela */
+    height: 20vh; 
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 2%;
-    box-sizing: border-box; /* Evita que a largura seja aumentada pela adição de padding */
+    box-sizing: border-box; 
 }
 
 nav {
@@ -55,13 +54,38 @@ ul.cabecalho li a {
 main {
     padding: 2%;
     width: 100%;
-    height: 80%; /* Ocupa 80% da altura da tela */
-    overflow-y: auto; /* Adicionado overflow-y para rolagem vertical quando necessário */
-    box-sizing: border-box; /* Evita que a largura seja aumentada pela adição de padding */
+    height: 80%; 
+    overflow-y: auto; 
+    box-sizing: border-box; 
 }
 
-h1.forum{
-    margin-bottom:1%;
+.forum-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1%;
+}
+
+h1.forum {
+    margin: 0;
+}
+
+
+.duvidasfrequentes-link {
+    display: inline-block;
+    margin-left: 2%;
+    padding: 1% 2%; 
+    background-color: rgba(31, 9, 224, 0.8); 
+    color: white; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    font-size: 1.2em; 
+    text-align: center;
+}
+
+.duvidasfrequentes-link:hover {
+    background-color: darkblue; 
+    text-decoration: underline; 
 }
 
 form {
@@ -70,20 +94,18 @@ form {
 
 label {
     display: block;
-    font-size: 1.2em; /* Aumenta o tamanho da fonte para 1.2 vezes o tamanho padrão */
+    font-size: 1.2em; 
 }
 
 input, textarea {
     width: 100%;
-    padding: 1%; /* Reduzindo o padding para 1% */
+    padding: 1%; 
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-
-
 button {
-    padding: 1% 2%; /* Reduzindo o padding para 1% vertical e 2% horizontal */
+    padding: 1% 2%; 
     background-color: green;
     color: white;
     border: none;
@@ -91,14 +113,13 @@ button {
     cursor: pointer;
 }
 
-
 button:hover {
     background-color: darkgreen;
 }
 
 button.vermensagem {
     padding: 1% 2%;
-    background-color: rgba(31, 9, 224,1); /* Alterando a cor do botão para azul */
+    background-color: rgba(31, 9, 224, 1); 
     color: white;
     border: none;
     border-radius: 5px;
@@ -106,35 +127,33 @@ button.vermensagem {
 }
 
 button.vermensagem:hover {
-    background-color: darkblue; /* Alterando a cor do botão ao passar o mouse */
+    background-color: darkblue; 
 }
 
-button.botaoeditar{
+button.botaoeditar {
     padding: 1% 2%;
-    background-color: rgba(7, 209, 34, 0.9); /* Alterando a cor do botão para azul */
+    background-color: rgba(7, 209, 34, 0.9); 
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
-
 
 button.botaoeditar:hover {
-    background-color: darkgreen; 
+    background-color: darkgreen;
 }
 
-button.botaoexcluir{
+button.botaoexcluir {
     padding: 1% 2%;
-    background-color: rgba(255,0,0,0.8); /* Alterando a cor do botão para azul */
+    background-color: rgba(255, 0, 0, 0.8); 
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-
 button.botaoexcluir:hover {
-    background-color: darkred; 
+    background-color: darkred;
 }
 
 #mensagens div {
@@ -144,5 +163,5 @@ button.botaoexcluir:hover {
 label {
     display: block;
     margin-bottom: 2%;
-    font-size: 1.2em; 
+    font-size: 1.2em;
 }
